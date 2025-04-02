@@ -1,14 +1,53 @@
-// Update this page (the content is just a fallback if you fail to update the page)
 
-const Index = () => {
+import React from 'react';
+import Layout from '@/components/layout/Layout';
+import StatCard from '@/components/dashboard/StatCard';
+import Chart from '@/components/dashboard/Chart';
+import { Users, Activity, UserCheck, Graduation } from 'lucide-react';
+
+const Dashboard = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <Layout 
+      title="Dashboard Overview" 
+      subtitle="Welcome back! Here's what's happening."
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <StatCard 
+          title="Active Connections" 
+          value={9} 
+          change="+100.0%" 
+          icon={<Users className="text-white" size={24} />} 
+          iconBg="bg-cauhec-red/20"
+        />
+        
+        <StatCard 
+          title="Active Clinical Rotation" 
+          value={4} 
+          change="+100.0%" 
+          icon={<Activity className="text-white" size={24} />} 
+          iconBg="bg-cauhec-red/20"
+        />
+        
+        <StatCard 
+          title="Total Preceptor" 
+          value={12} 
+          change="+500.0%" 
+          icon={<UserCheck className="text-white" size={24} />} 
+          iconBg="bg-cauhec-red/20"
+        />
+        
+        <StatCard 
+          title="Total Students" 
+          value={9} 
+          change="+200.0%" 
+          icon={<Graduation className="text-white" size={24} />} 
+          iconBg="bg-cauhec-red/20"
+        />
       </div>
-    </div>
+
+      <Chart />
+    </Layout>
   );
 };
 
-export default Index;
+export default Dashboard;

@@ -327,72 +327,61 @@ const Institutions = () => {
       title="Institutions"
       subtitle="Manage partner institutions and facilities"
     >
-      <div className="flex justify-between items-center mb-6">
-        <div></div>
-        <Button 
-          onClick={() => setIsDialogOpen(true)} 
-          className="bg-cauhec-red hover:bg-cauhec-red/90"
-        >
-          <Plus className="mr-2 h-4 w-4" />
-          Add Institution
-        </Button>
-      </div>
-
-      <div className="flex items-center gap-4 mb-6">
-        <div className="flex items-center">
-          <Filter className="mr-2 h-5 w-5 text-gray-500" />
-          <span className="font-medium mr-2">Filters</span>
-        </div>
-        
-        <Select value={selectedLocationType} onValueChange={setSelectedLocationType}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="School Locations" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="school-locations">School Locations</SelectItem>
-            {locationTypes.map(type => (
-              <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        
-        <Select value={selectedState} onValueChange={setSelectedState}>
-          <SelectTrigger className="w-[180px]">
-            <SelectValue placeholder="All States" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="all-states">All States</SelectItem>
-            {states.map(state => (
-              <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        
-        <div className="flex-grow"></div>
-        
-        <div className="relative">
-          <Input
-            className="pl-8 w-64"
-            placeholder="Search schools..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <svg
-            className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
-          </svg>
-        </div>
-      </div>
+      <div className="flex flex-col lg:flex-row lg:items-center gap-4 mb-6">
+  <div className="flex items-center">
+    <Filter className="mr-2 h-5 w-5 text-gray-500" />
+    <span className="font-medium mr-2">Filters</span>
+  </div>
+  
+  <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+    <Select value={selectedLocationType} onValueChange={setSelectedLocationType}>
+      <SelectTrigger className="w-full sm:w-[180px]">
+        <SelectValue placeholder="School Locations" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="school-locations">School Locations</SelectItem>
+        {locationTypes.map(type => (
+          <SelectItem key={type.value} value={type.value}>{type.label}</SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+    
+    <Select value={selectedState} onValueChange={setSelectedState}>
+      <SelectTrigger className="w-full sm:w-[180px]">
+        <SelectValue placeholder="All States" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all-states">All States</SelectItem>
+        {states.map(state => (
+          <SelectItem key={state.value} value={state.value}>{state.label}</SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  </div>
+  
+  <div className="relative w-full sm:w-64 mt-4 lg:mt-0">
+    <Input
+      className="pl-8 w-full"
+      placeholder="Search schools..."
+      value={searchQuery}
+      onChange={(e) => setSearchQuery(e.target.value)}
+    />
+    <svg
+      className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+      />
+    </svg>
+  </div>
+</div>
 
       {loading ? (
         <div className="flex justify-center items-center h-64">

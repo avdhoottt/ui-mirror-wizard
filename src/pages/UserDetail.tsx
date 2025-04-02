@@ -203,26 +203,26 @@ const UserDetail = () => {
       )}
 
       
-      <div className="flex justify-between items-center mb-6">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="text-gray-600 hover:text-gray-900 flex items-center"
-        >
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to Users
-        </Button>
-        
-        <Button
-          variant="destructive"
-          onClick={handleDelete}
-          className="bg-cauhec-red hover:bg-cauhec-red/90 flex items-center"
-          disabled
-        >
-          <Trash2 className="mr-2 h-4 w-4" />
-          Delete User
-        </Button>
-      </div>
+<div className="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mb-6">
+  <Button
+    variant="ghost"
+    onClick={handleBack}
+    className="text-gray-600 hover:text-gray-900 flex items-center justify-center sm:justify-start"
+  >
+    <ArrowLeft className="mr-2 h-4 w-4" />
+    Back to Users
+  </Button>
+  
+  <Button
+    variant="destructive"
+    onClick={handleDelete}
+    className="bg-cauhec-red hover:bg-cauhec-red/90 flex items-center justify-center"
+    disabled
+  >
+    <Trash2 className="mr-2 h-4 w-4" />
+    Delete User
+  </Button>
+</div>
 
       {loading ? (
         // Loading skeleton
@@ -270,25 +270,25 @@ const UserDetail = () => {
       ) : (
         <div className="space-y-6">
           {/* User Header */}
-          <div className="bg-white rounded-lg shadow">
-            <div className="p-6 flex items-start gap-6">
-              <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white text-xl font-medium ${getBackgroundColor(user?.role)}`}>
-                {getUserInitials(user?.fullName)}
-              </div>
-              <div>
-                <h2 className="text-2xl font-bold">{user?.fullName}</h2>
-                <p className="text-gray-500 mb-2">{user?.role}</p>
-                <div className="flex items-center text-gray-700">
-                  <Mail className="h-4 w-4 mr-2" />
-                  {user?.email}
-                </div>
-                <div className="flex items-center text-gray-700 mt-1">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Joined {formatDate(user?.createdAt)}
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="p-6 flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
+  <div className={`w-20 h-20 rounded-full flex items-center justify-center text-white text-xl font-medium ${getBackgroundColor(user?.role)}`}>
+    {getUserInitials(user?.fullName)}
+  </div>
+  <div>
+    <h2 className="text-2xl font-bold">{user?.fullName}</h2>
+    <p className="text-gray-500 mb-2">{user?.role}</p>
+    <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2 sm:gap-4 text-gray-700">
+      <div className="flex items-center">
+        <Mail className="h-4 w-4 mr-2" />
+        {user?.email}
+      </div>
+      <div className="flex items-center">
+        <Calendar className="h-4 w-4 mr-2" />
+        Joined {formatDate(user?.createdAt)}
+      </div>
+    </div>
+  </div>
+</div>
 
           {/* Professional Information */}
           <div className="bg-white rounded-lg shadow">

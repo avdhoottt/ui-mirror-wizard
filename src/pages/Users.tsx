@@ -105,49 +105,57 @@ const Users = () => {
           ) : error ? (
             <p className="text-red-500 text-center">{error}</p>
           ) : (
-            <div className="bg-white rounded-md shadow overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="border-b text-left text-gray-500">
-                    <th className="p-4">ICON</th>
-                    <th className="p-4">NAME</th>
-                    <th className="p-4">EMAIL</th>
-                    <th className="p-4">{activeTab === 'preceptor' ? 'WORK LOCATION' : 'SCHOOL'}</th>
-                    <th className="p-4">JOIN DATE</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {users.length > 0 ? (
-                    users.map((user) => (
-                      <tr key={user.id} className="border-b hover:bg-gray-50">
-                        <td className="p-4">
-                          <div className="user-initial bg-cauhec-red">
-                            {`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
-                          </div>
-                        </td>
-                        <td className="p-4">
-                          <button 
-                            onClick={() => handleUserClick(user.id)}
-                            className="font-medium text-left hover:text-cauhec-red hover:underline transition-colors"
-                          >
-                            {user.firstName} {user.lastName}
-                          </button>
-                        </td>
-                        <td className="p-4 text-gray-500">{user.email}</td>
-                        <td className="p-4 text-gray-500">
-                          {activeTab === 'preceptor' ? user.workLocation ?? 'N/A' : user.schoolName ?? 'N/A'}
-                        </td>
-                        <td className="p-4 text-gray-500">{new Date(user.createdAt).toLocaleDateString()}</td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={5} className="p-4 text-center text-gray-500">No users found.</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
+            <div className="overflow-x-auto">
+  <table className="w-full">
+    <thead className="hidden md:table-header-group">
+      <tr className="border-b text-left text-gray-500">
+        <th className="p-4">ICON</th>
+        <th className="p-4">NAME</th>
+        <th className="p-4">EMAIL</th>
+        <th className="p-4">{activeTab === 'preceptor' ? 'WORK LOCATION' : 'SCHOOL'}</th>
+        <th className="p-4">JOIN DATE</th>
+      </tr>
+    </thead>
+    <tbody>
+      {users.length > 0 ? (
+        users.map((user) => (
+          <tr key={user.id} className="border-b hover:bg-gray-50 block md:table-row">
+            <td className="p-4 flex items-center md:table-cell">
+              <div className="user-initial bg-cauhec-red">
+                {`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
+              </div>
+              <div className="md:hidden ml-4">
+                <div className="font-medium">{user.firstName} {user.lastName}</div>
+                <div className="text-sm text-gray-500">{user.email}</div>
+              </div>
+            </td>
+            <td className="p-4 hidden md:table-cell">
+              <button 
+                onClick={() => handleUserClick(user.id)}
+                className="font-medium text-left hover:text-cauhec-red hover:underline transition-colors"
+              >
+                {user.firstName} {user.lastName}
+              </button>
+            </td>
+            <td className="p-4 text-gray-500 hidden md:table-cell">{user.email}</td>
+            <td className="p-4 text-gray-500 block md:table-cell">
+              <span className="md:hidden font-medium mr-2">{activeTab === 'preceptor' ? 'Location:' : 'School:'} </span>
+              {activeTab === 'preceptor' ? user.workLocation ?? 'N/A' : user.schoolName ?? 'N/A'}
+            </td>
+            <td className="p-4 text-gray-500 block md:table-cell">
+              <span className="md:hidden font-medium mr-2">Joined: </span>
+              {new Date(user.createdAt).toLocaleDateString()}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={5} className="p-4 text-center text-gray-500">No users found.</td>
+        </tr>
+      )}
+    </tbody>
+  </table>
+</div>
           )}
         </TabsContent>
       </Tabs>

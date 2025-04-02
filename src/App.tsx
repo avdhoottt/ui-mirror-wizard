@@ -3,6 +3,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
@@ -11,7 +12,7 @@ import Institutions from "./pages/Institutions";
 import Profiles from "./pages/Profiles";
 import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
-import UserDetail from "./pages/UserDetail"; // Import the new UserDetail component
+import UserDetail from "./pages/UserDetail";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,9 @@ const ProtectedRoute = ({ children }) => {
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
+      <Helmet>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+      </Helmet>
       <TooltipProvider>
         <Toaster />
         <Sonner />

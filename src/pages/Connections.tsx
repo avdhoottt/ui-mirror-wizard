@@ -301,56 +301,64 @@ const Connections = () => {
             ))}
           </div>
         ) : (
-          <table className="w-full">
-            <thead>
-              <tr className="border-b text-left text-gray-500 text-sm">
-                <th className="p-4">STUDENT NAME</th>
-                <th className="p-4">PRECEPTOR NAME</th>
-                <th className="p-4">CONNECTION REQUESTED DATE</th>
-                <th className="p-4">CONNECTION DATE</th>
-              </tr>
-            </thead>
-            <tbody>
-              {connections.map((connection, index) => (
-                <tr key={index} className="border-b">
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${connection.studentBg}`}>
-                        {connection.studentInitials}
-                      </div>
-                      <div>
-                        <button
-                          onClick={() => handleUserClick(connection.studentId)}
-                          className="font-medium hover:text-cauhec-red hover:underline transition-colors text-left block"
-                        >
-                          {connection.studentName}
-                        </button>
-                        <p className="text-gray-500 text-xs">{connection.studentEmail}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${connection.preceptorBg}`}>
-                        {connection.preceptorInitials}
-                      </div>
-                      <div>
-                        <button
-                          onClick={() => handleUserClick(connection.preceptorId)}
-                          className="font-medium hover:text-cauhec-red hover:underline transition-colors text-left block"
-                        >
-                          {connection.preceptorName}
-                        </button>
-                        <p className="text-gray-500 text-xs">{connection.preceptorEmail}</p>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="p-4 text-gray-500">{connection.requestDate}</td>
-                  <td className="p-4 text-gray-500">{connection.connectionDate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <div className="overflow-x-auto">
+  <table className="w-full">
+    <thead className="hidden md:table-header-group">
+      <tr className="border-b text-left text-gray-500 text-sm">
+        <th className="p-4">STUDENT NAME</th>
+        <th className="p-4">PRECEPTOR NAME</th>
+        <th className="p-4">CONNECTION REQUESTED DATE</th>
+        <th className="p-4">CONNECTION DATE</th>
+      </tr>
+    </thead>
+    <tbody>
+      {connections.map((connection, index) => (
+        <tr key={index} className="border-b block md:table-row">
+          <td className="p-4 block md:table-cell">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${connection.studentBg}`}>
+                {connection.studentInitials}
+              </div>
+              <div>
+                <button
+                  onClick={() => handleUserClick(connection.studentId)}
+                  className="font-medium hover:text-cauhec-red hover:underline transition-colors text-left block"
+                >
+                  {connection.studentName}
+                </button>
+                <p className="text-gray-500 text-xs">{connection.studentEmail}</p>
+              </div>
+            </div>
+          </td>
+          <td className="p-4 block md:table-cell">
+            <div className="flex items-center gap-3">
+              <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white font-medium ${connection.preceptorBg}`}>
+                {connection.preceptorInitials}
+              </div>
+              <div>
+                <button
+                  onClick={() => handleUserClick(connection.preceptorId)}
+                  className="font-medium hover:text-cauhec-red hover:underline transition-colors text-left block"
+                >
+                  {connection.preceptorName}
+                </button>
+                <p className="text-gray-500 text-xs">{connection.preceptorEmail}</p>
+              </div>
+            </div>
+          </td>
+          <td className="p-4 text-gray-500 block md:table-cell">
+            <span className="md:hidden inline-block font-medium mr-2">Requested: </span>
+            {connection.requestDate}
+          </td>
+          <td className="p-4 text-gray-500 block md:table-cell">
+            <span className="md:hidden inline-block font-medium mr-2">Connected: </span>
+            {connection.connectionDate}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
         )}
       </div>
     </Layout>

@@ -256,40 +256,44 @@ const Profiles = () => {
           <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-cauhec-red"></div>
         </div>
       ) : (
-        <div className="bg-white rounded-md shadow">
-          <table className="w-full">
-            <thead>
-              <tr className="border-b text-left text-gray-500 uppercase text-sm">
-                <th className="p-4">Icon</th>
-                <th className="p-4">Email</th>
-                <th className="p-4">Role</th>
-                <th className="p-4">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {profiles.filter(profile => profile.role === 'admin').map((profile) => (
-                <tr key={profile.id} className="border-b">
-                  <td className="p-4">
-                    <div className="h-10 w-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-medium">
-                      {getInitials(profile.email)}
-                    </div>
-                  </td>
-                  <td className="p-4 text-gray-800">{profile.email}</td>
-                  <td className="p-4 text-gray-800">{profile.role}</td>
-                  <td className="p-4">
-                    <button 
-                      className="text-gray-400 hover:text-red-500 transition-colors"
-                      onClick={() => handleDeleteProfile(profile.id)}
-                      disabled
-                    >
-                      <Trash2 size={18} />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <div className="overflow-x-auto">
+  <table className="w-full">
+    <thead className="hidden md:table-header-group">
+      <tr className="border-b text-left text-gray-500 uppercase text-sm">
+        <th className="p-4">Icon</th>
+        <th className="p-4">Email</th>
+        <th className="p-4">Role</th>
+        <th className="p-4">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {profiles.filter(profile => profile.role === 'admin').map((profile) => (
+        <tr key={profile.id} className="border-b block md:table-row">
+          <td className="p-4 flex md:table-cell items-center">
+            <div className="h-10 w-10 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center font-medium">
+              {getInitials(profile.email)}
+            </div>
+            <div className="md:hidden ml-4">
+              <div className="font-medium">{profile.email}</div>
+              <div className="text-sm text-gray-500">{profile.role}</div>
+            </div>
+          </td>
+          <td className="p-4 text-gray-800 hidden md:table-cell">{profile.email}</td>
+          <td className="p-4 text-gray-800 hidden md:table-cell">{profile.role}</td>
+          <td className="p-4 absolute right-4 top-8 md:static">
+            <button 
+              className="text-gray-400 hover:text-red-500 transition-colors"
+              onClick={() => handleDeleteProfile(profile.id)}
+              disabled
+            >
+              <Trash2 size={18} />
+            </button>
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
       )}
 
       {/* Create Admin Dialog */}

@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { LayoutDashboard, Users, Link2, Building2, User } from 'lucide-react';
@@ -16,7 +15,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="w-64 h-screen bg-cauhec-red fixed top-0 left-0 flex flex-col">
+    <div className="w-64 h-screen bg-cauhec-red md:fixed top-0 left-0 flex flex-col">
       <div className="p-4 mt-2">
         <h1 className="text-white text-2xl font-bold">CAUHEC Connect</h1>
         <p className="text-white/80 text-sm">Admin Dashboard</p>

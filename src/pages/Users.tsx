@@ -1,133 +1,154 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
-import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { GraduationCap, UserCheck } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/components/ui/use-toast';
 
 interface User {
-  initials: string;
-  name: string;
+  id: number;
+  firstName?: string;
+  lastName?: string;
   email: string;
-  school: string;
-  date: string;
-  type: string;
-  bgColor: string;
+  schoolName?: string;
+  workLocation?: string;
+  createdAt: string;
 }
 
 const Users = () => {
-  const [activeTab, setActiveTab] = useState('students');
-  
-  const studentUsers: User[] = [
-    { 
-      initials: "EM", 
-      name: "Elaina McAdams", 
-      email: "Elainamhall@yahoo.com", 
-      school: "California State University - Fresno", 
-      date: "11/12/2024", 
-      type: "student",
-      bgColor: "bg-cauhec-red"
-    },
-    { 
-      initials: "EM", 
-      name: "Elaina McAdams", 
-      email: "elainamhall@mail.fresnostate.edu", 
-      school: "Loyola Marymount University - Baldwin Park", 
-      date: "16/12/2024", 
-      type: "student",
-      bgColor: "bg-cauhec-red"
-    },
-    { 
-      initials: "WT", 
-      name: "William Turner", 
-      email: "William.turner@mail.com", 
-      school: "Alabama A & M University", 
-      date: "03/01/2025", 
-      type: "student",
-      bgColor: "bg-purple-500"
-    },
-    { 
-      initials: "fl", 
-      name: "first last", 
-      email: "heittasegra-44512s@yopmail.com", 
-      school: "189455", 
-      date: "06/01/2025", 
-      type: "student",
-      bgColor: "bg-pink-500"
-    },
-    { 
-      initials: "OY", 
-      name: "Olivia Young", 
-      email: "Olivia.young@studentmail.com", 
-      school: "Georgia State University", 
-      date: "14/02/2025", 
-      type: "student",
-      bgColor: "bg-orange-500"
-    },
-  ];
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<'student' | 'preceptor'>('student');
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    fetchUsers();
+  }, [activeTab]);
+
+  const fetchUsers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Authentication token not found.');
+        return;
+      }
+
+      const response = await fetch(`https://backend.cauhec.org/api/v1/admin/users-list/?role=${activeTab}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+      console.log(data);
+
+      if (data.status === 'success') {
+        // Filter out users without a valid firstName
+        const validUsers = data.data.filter(
+          (user: User) =>
+            user.id &&
+            user.email &&
+            user.createdAt &&
+            user.firstName &&
+            user.firstName.trim() !== ''
+        );
+        setUsers(validUsers);
+      } else {
+        setUsers([]);
+        setError(data.message || 'Failed to fetch users');
+      }
+    } catch (err) {
+      setUsers([]);
+      setError('Error fetching users');
+      toast({
+        title: 'Error loading users',
+        description: 'There was a problem fetching the users list.',
+        variant: 'destructive',
+      });
+    }
+    setLoading(false);
+  };
+
+  // Navigate to user detail page
+  const handleUserClick = (userId: number) => {
+    navigate(`/user/${userId}`);
+  };
 
   return (
-    <Layout 
-      title="Users" 
-      subtitle="Manage students in the system"
-    >
-      <Tabs defaultValue="students" className="w-full">
+    <Layout title="Users" subtitle="Manage students and preceptors">
+      <Tabs defaultValue="student" className="w-full">
         <TabsList className="w-full grid grid-cols-2 mb-8 h-auto">
-          <TabsTrigger 
-            value="students" 
-            className="flex items-center gap-2 py-4"
-            onClick={() => setActiveTab('students')}
-          >
+          <TabsTrigger value="student" className="flex items-center gap-2 py-4" onClick={() => setActiveTab('student')}>
             <GraduationCap className="h-5 w-5" />
             <span>Students</span>
           </TabsTrigger>
-          <TabsTrigger 
-            value="preceptors"
-            className="flex items-center gap-2 py-4"
-            onClick={() => setActiveTab('preceptors')}
-          >
+          <TabsTrigger value="preceptor" className="flex items-center gap-2 py-4" onClick={() => setActiveTab('preceptor')}>
             <UserCheck className="h-5 w-5" />
             <span>Preceptors</span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="students">
-          <div className="bg-white rounded-md shadow">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b text-left text-gray-500">
-                  <th className="p-4">NAME</th>
-                  <th className="p-4">EMAIL</th>
-                  <th className="p-4">SCHOOL</th>
-                  <th className="p-4">JOIN DATE</th>
-                </tr>
-              </thead>
-              <tbody>
-                {studentUsers.map((user, index) => (
-                  <tr key={index} className="border-b">
-                    <td className="p-4">
-                      <div className="flex items-center gap-3">
-                        <div className={`user-initial ${user.bgColor}`}>{user.initials}</div>
-                        <div>
-                          <p className="font-medium">{user.name}</p>
-                          <p className="text-gray-500 text-sm">{user.type}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="p-4 text-gray-500">{user.email}</td>
-                    <td className="p-4 text-gray-500">{user.school}</td>
-                    <td className="p-4 text-gray-500">{user.date}</td>
+        <TabsContent value={activeTab}>
+          {loading ? (
+            <div className="space-y-3">
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-8 w-full" />
+              <Skeleton className="h-8 w-full" />
+            </div>
+          ) : error ? (
+            <p className="text-red-500 text-center">{error}</p>
+          ) : (
+            <div className="bg-white rounded-md shadow overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b text-left text-gray-500">
+                    <th className="p-4">ICON</th>
+                    <th className="p-4">NAME</th>
+                    <th className="p-4">EMAIL</th>
+                    <th className="p-4">{activeTab === 'preceptor' ? 'WORK LOCATION' : 'SCHOOL'}</th>
+                    <th className="p-4">JOIN DATE</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="preceptors">
-          <div className="h-64 flex items-center justify-center text-gray-500">
-            No preceptors data to display.
-          </div>
+                </thead>
+                <tbody>
+                  {users.length > 0 ? (
+                    users.map((user) => (
+                      <tr key={user.id} className="border-b hover:bg-gray-50">
+                        <td className="p-4">
+                          <div className="user-initial bg-cauhec-red">
+                            {`${user.firstName?.[0] ?? ''}${user.lastName?.[0] ?? ''}`.toUpperCase()}
+                          </div>
+                        </td>
+                        <td className="p-4">
+                          <button 
+                            onClick={() => handleUserClick(user.id)}
+                            className="font-medium text-left hover:text-cauhec-red hover:underline transition-colors"
+                          >
+                            {user.firstName} {user.lastName}
+                          </button>
+                        </td>
+                        <td className="p-4 text-gray-500">{user.email}</td>
+                        <td className="p-4 text-gray-500">
+                          {activeTab === 'preceptor' ? user.workLocation ?? 'N/A' : user.schoolName ?? 'N/A'}
+                        </td>
+                        <td className="p-4 text-gray-500">{new Date(user.createdAt).toLocaleDateString()}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={5} className="p-4 text-center text-gray-500">No users found.</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          )}
         </TabsContent>
       </Tabs>
     </Layout>

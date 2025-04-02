@@ -3,7 +3,7 @@ import React from 'react';
 import Layout from '@/components/layout/Layout';
 import StatCard from '@/components/dashboard/StatCard';
 import Chart from '@/components/dashboard/Chart';
-import { Users, Activity, UserCheck, Graduation } from 'lucide-react';
+import { Users, Activity, UserCheck, GraduationCap } from 'lucide-react';
 
 const Dashboard = () => {
   return (
@@ -40,7 +40,7 @@ const Dashboard = () => {
           title="Total Students" 
           value={9} 
           change="+200.0%" 
-          icon={<Graduation className="text-white" size={24} />} 
+          icon={<GraduationCap className="text-white" size={24} />} 
           iconBg="bg-cauhec-red/20"
         />
       </div>

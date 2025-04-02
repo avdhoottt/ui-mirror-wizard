@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Graduation, UserCheck } from 'lucide-react';
+import { GraduationCap, UserCheck } from 'lucide-react';
 
 interface User {
   initials: string;
@@ -78,7 +78,7 @@ const Users = () => {
             className="flex items-center gap-2 py-4"
             onClick={() => setActiveTab('students')}
           >
-            <Graduation className="h-5 w-5" />
+            <GraduationCap className="h-5 w-5" />
             <span>Students</span>
           </TabsTrigger>
           <TabsTrigger 
